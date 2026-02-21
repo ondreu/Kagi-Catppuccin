@@ -1,0 +1,1037 @@
+/*
+ * ╔══════════════════════════════════════════════════════════════════════╗
+ * ║  Kagi Search – Catppuccin Mocha Theme                                ║
+ * ║  Verze 4  (opravy: dropdown, favicon, wikipedia, pozicionování)      ║
+ * ╠══════════════════════════════════════════════════════════════════════╣
+ * ║                                                                      ║
+ * ║  JAK ČÍST TENTO SOUBOR:                                              ║
+ * ║  • Každá sekce je nadepsána rámečkem  ═══════  a stručně popsána     ║
+ * ║  • Barvy jsou CSS proměnné v sekci :root – změna jedné hodnoty       ║
+ * ║    se projeví všude, kde je proměnná použita                         ║
+ * ║  • Najdi sekci pomocí Ctrl+F a klíčového slova v záhlaví             ║
+ * ║                                                                      ║
+ * ║  HLAVNÍ KLÍČOVÁ SLOVA PRO VYHLEDÁVÁNÍ:                               ║
+ * ║    [BARVY]     – přehled celé Catppuccin Mocha palety                ║
+ * ║    [ODKAZ]     – barvy odkazů (navštívený / nenavštívený / hover)    ║
+ * ║    [KARTA]     – styly karet výsledků                                ║
+ * ║    [DROPDOWN]  – rozbalovací menu (tlačítko "More", filtry, řazení)  ║
+ * ║    [FAVICON]   – ikonky domén vedle titulku výsledku                 ║
+ * ║    [WIKI]      – Wikipedia widget v pravém sloupci                   ║
+ * ╚══════════════════════════════════════════════════════════════════════╝
+ */
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  ANIMACE
+ *  fadeInUp: karty výsledků se při načtení plynule vynoří zdola
+ *  moveBackground: pohyblivé pozadí (momentálně nepoužito)
+ * ═══════════════════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes moveBackground {
+    0%, 100% { transform: translate(0, 0); }
+    25%       { transform: translate(5%, 10%); }
+    50%       { transform: translate(-5%, 15%); }
+    75%       { transform: translate(10%, 5%); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  [BARVY]  CATPPUCCIN MOCHA PALETA + PROMĚNNÉ
+ *
+ *  Kagi používá tmavý mód, takže barvy jsou z tmavé varianty palety.
+ *
+ *  Vrstvená pozadí (od nejtmavšího po nejsvětlejší):
+ *    Crust (#11111b) → Mantle (#181825) → Base (#1e1e2e)
+ *    → Surface0 (#313244) → Surface1 (#45475a) → Surface2 (#585b70)
+ *
+ *  Akcenty (barvy pro text, linky, ikony):
+ *    Rosewater, Flamingo, Pink, Mauve, Red, Maroon,
+ *    Peach, Yellow, Green, Teal, Sky, Sapphire, Blue, Lavender
+ *
+ *  ★ Chceš změnit primární barvu tématu?
+ *    Nahraď hodnotu --mauve (řádek ~75) a --lavender (hover stav).
+ *    Všechny akcentové prvky se automaticky přebarví.
+ * ═══════════════════════════════════════════════════════════════════════ */
+:root {
+    /* ── Fonty ── */
+    --font-lufga: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+
+    /* ── Pozadí (od nejtmavšího po nejsvětlejší) ── */
+    --crust:        #11111b;   /* nejhlubší tmavina  – text na fialových plochách */
+    --mantle:       #181825;   /* scrollbar track, overlay pozadí */
+    --main-bg:      #1e1e2e;   /* základní pozadí celé stránky */
+    --primary-bg:   #28293d;   /* mezivrstva – URL bubliny, chat bubliny */
+    --primary-25:   #313244;
+    --primary-50:   #313244;
+    --primary-70:   #3a3b52;   /* vyhledávací pole ve focus stavu */
+    --secondary-bg: #313244;   /* karty výsledků, widgety (Surface0) */
+    --surface1:     #45475a;   /* hrany karet, oddělovací čáry */
+    --surface2:     #585b70;   /* hover stav hrany karet */
+
+    /* ── Texty ── */
+    --main-fg:      #cdd6f4;   /* primární text stránky */
+    --secondary-fg: #bac2de;   /* sekundární text – popisky, meta informace */
+    --overlay1:     #7f849c;   /* URL breadcrumb, domain chipy */
+    --overlay0:     #6c7086;   /* placeholder text, tlumené popisky */
+
+    /* ── Catppuccin akcenty ──
+     *  Chceš použít jinou barvu jako primární? Změň jen --mauve a --lavender.
+     *  Ostatní barvy se používají pro specifické prvky (viz níže v souboru). */
+    --mauve:        #cba6f7;   /* ★ PRIMÁRNÍ – aktivní stav, navštívené linky */
+    --lavender:     #b4befe;   /* hover stav na primárních prvcích */
+    --pink:         #f5c2e7;   /* widget nadpisy, unvisited linky ve wiki widgetu */
+    --flamingo:     #f2cdcd;   /* hover stav rosewater linků */
+    --rosewater:    #f5e0dc;   /* ★ nenavštívené výsledkové linky */
+    --blue:         #89b4fa;   /* informační prvky */
+    --sapphire:     #74c7ec;   /* sub-výsledky (.srgi), wiki hrany */
+    --sky:          #89dceb;   /* hover stav sub-výsledků */
+    --teal:         #94e2d5;   /* widgety a panely – hrany */
+    --green:        #a6e3a1;   /* boosted výsledky (hvězdičkované stránky) */
+    --yellow:       #f9e2af;   /* časová razítka u výsledků */
+    --peach:        #fab387;   /* tlačítko "Přeložit stránku" */
+    --maroon:       #eba0ac;   /* záložní akcent (nevyužito) */
+    --red:          #f38ba8;   /* chybové stavy */
+
+    /* ── Sémantické tokeny (mapování rolí na barvy) ──
+     *  Tady uprav, pokud chceš přemapovat konkrétní vizuální roli.
+     *  Např. chceš modré scrollbary? Změň --mauve na --blue ve scrollbar sekci,
+     *  nebo přejmenuj token níže: */
+    --border-color:              var(--surface1);
+    --search-result-title-hover: var(--lavender);
+    --primary-visited:           var(--mauve);
+    --button-color:              var(--mauve);
+    --button-hover-color:        var(--lavender);
+    --source-highlight-color:    var(--green);
+    --sri-hover-color:           var(--mauve);
+    --color-search-input:        var(--secondary-bg);
+    --color-search-input-border: var(--border-color);
+    --time-stamp:                rgba(249, 226, 175, 0.75);
+    --m_sri_gap_color:           var(--primary-bg) !important;
+    --app-text:                  var(--main-fg) !important;
+    --secondary-text:            var(--secondary-fg);
+    --app-bg:                    var(--main-bg);
+    --inline-widget-bg:          var(--secondary-bg);
+    --primary-hover:             var(--mauve);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  ZÁKLADNÍ POZADÍ
+ *  Nastavuje tmavé pozadí pro celou stránku.
+ * ═══════════════════════════════════════════════════════════════════════ */
+body, html {
+    background-color: var(--main-bg) !important;
+    font-family: var(--font-lufga), system-ui;
+}
+
+.body-content {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-color: transparent;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  SCROLLBAR
+ *  Chceš jinou barvu palce? Nahraď var(--mauve) za libovolný akcentový
+ *  token (--blue, --teal, --green, …).
+ * ═══════════════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar               { width: 10px; height: 10px; }
+::-webkit-scrollbar-track         { background: var(--mantle); }
+::-webkit-scrollbar-thumb {
+    background:    var(--mauve);
+    border-radius: 8px;
+    border:        2px solid var(--mantle);  /* vytváří "plovoucí" efekt */
+}
+::-webkit-scrollbar-thumb:hover   { background: var(--lavender); }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  LEPKAVÁ HLAVIČKA
+ *
+ *  "Frosted glass" efekt: poloprůhledné pozadí + backdrop-filter blur.
+ *  Sticky + z-index 114 = zůstává viditelná při skrolování.
+ *
+ *  ★ Chceš průhlednost? Uprav číslo 0.72 → 0.5 = více průhledné.
+ *  ★ Chceš ostřejší rohy? Sniž border-bottom-*-radius (např. na 12px).
+ * ═══════════════════════════════════════════════════════════════════════ */
+.app-header.app-content-box {
+    position:    sticky;
+    top:         0;
+    z-index:     114;
+    background:  rgba(30, 30, 46, 0.72);   /* --main-bg s průhledností */
+    backdrop-filter:         blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border:                  1px solid rgba(69, 71, 90, 0.5);   /* --surface1 */
+    border-top:              none;
+    border-bottom-left-radius:  24px;
+    border-bottom-right-radius: 24px;
+    box-shadow:  0 4px 20px rgba(0, 0, 0, 0.5);
+
+    /*
+     * DŮLEŽITÉ: overflow musí být visible, aby se dropdown menu
+     * z hlavičky mohla zobrazovat přes okraj hlavičky.
+     * Bez tohoto by byly oříznuty border-radius ořezem.
+     */
+    overflow: visible !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  VYHLEDÁVACÍ POLE
+ *  Pill tvar (border-radius: 2.5rem), fialový focus ring.
+ *
+ *  ★ Chceš čtvercové pole? Sniž border-radius na 8px.
+ *  ★ Chceš jiný focus ring? Nahraď rgba(203, 166, 247, ...) za jinou barvu.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.search-form .search-input-container,
+.search-input-container {
+    background-color: var(--secondary-bg) !important;
+    border:           1px solid var(--border-color) !important;
+    border-radius:    2.5rem !important;
+    box-shadow:       0 0 14px rgba(203, 166, 247, 0.12) !important;
+    transition:       all 0.3s ease;
+}
+
+/* Focus stav (uživatel klikl do pole) nebo hover */
+.search-form .search-input-container:focus-within,
+.search-input-container:hover {
+    background-color: var(--primary-70) !important;
+    border-color:     var(--mauve) !important;
+    box-shadow:       0 0 0 3px rgba(203, 166, 247, 0.18) !important;
+}
+
+/* Text uvnitř pole */
+.search-input,
+.search-input-container input {
+    color:            var(--main-fg) !important;
+    background-color: transparent !important;
+    caret-color:      var(--mauve) !important;   /* barva blikajícího kurzoru */
+}
+
+/* Placeholder ("Hledat…") */
+.search-input-container input::placeholder {
+    color:   var(--overlay0) !important;
+    opacity: 0.85;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  AUTOCOMPLETE (našeptávač)
+ *  Rozbalovací seznam pod vyhledávacím polem.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.auto_suggestions {
+    background-color: var(--secondary-bg) !important;
+    border:           1px solid var(--border-color) !important;
+    border-radius:    1.5rem !important;
+    box-shadow:       0 12px 28px rgba(0, 0, 0, 0.45);
+    z-index:          120;
+    overflow:         hidden;
+}
+
+.auto_suggestions_footer {
+    background-color: var(--primary-bg) !important;
+    border-top:       1px solid var(--border-color);
+}
+
+/* Vnitřní plocha seznamu */
+.auto_suggestions .suggestions_area {
+    background-color: var(--secondary-bg) !important;
+}
+
+/* Jednotlivé návrhy */
+.auto_suggestions .auto_item {
+    color:      var(--main-fg);
+    transition: background 0.2s;
+}
+
+/* Aktivní (klávesnicí vybraný) návrh */
+.auto_suggestions .auto_item.highlighted {
+    background-color: var(--mauve);
+    color:            var(--crust);   /* tmavý text pro čitelnost na fialové */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  [FAVICON]  IKONKY DOMÉN
+ *
+ *  Favicony jsou <img class="__domain-favicon"> vloženy přímo v HTML.
+ *  Kagi na živém webu je občas skrývá nebo nečekaně zobrazuje.
+ *  Tato sekce zajišťuje, že jsou vždy viditelné a správně zarovnané.
+ *
+ *  ★ Chceš kulatější ikonky? Zvyš border-radius (max. 50% = kruh).
+ * ═══════════════════════════════════════════════════════════════════════ */
+.__domain-favicon,
+img.__domain-favicon,
+.search-result .__domain-favicon,
+.sri-group .__domain-favicon,
+.__sri-title .__domain-favicon,
+.__sri-title > img,
+.search-result .__sri-title img {
+    /* Rozměry – pevných 16×16 px, bez ohledu na originální velikost obrázku */
+    width:      16px !important;
+    height:     16px !important;
+    min-width:  16px !important;
+    max-width:  16px !important;
+    object-fit: contain;           /* obrázek se vejde celý, bez ořezu */
+    border-radius: 4px;            /* mírně zaoblené rohy */
+    flex-shrink: 0;                /* nesmí se zmenšit při flex layoutu */
+    margin-right: 6px;
+    margin-top:   3px;
+    align-self: flex-start;
+
+    /* Viditelnost – přepisujeme všechny způsoby skrytí */
+    display:    inline-block !important;
+    visibility: visible !important;
+    opacity:    1 !important;
+    overflow:   visible !important;
+    clip:        auto !important;
+    clip-path:   none !important;
+}
+
+/*
+ * Řádek s titulkem výsledku – flex layout pro favicon + text vedle sebe.
+ *
+ * POZOR: overflow musí být visible nebo unset.
+ * Kagi's vlastní CSS pravděpodobně nastavuje overflow:hidden na __sri-title
+ * nebo jeho rodiče, aby ořezal dlouhé URL. To ale skrývá i favicon.
+ * Přepsáním na visible favicony se opět zobrazí.
+ */
+.__sri-title {
+    display:     flex !important;
+    align-items: flex-start;
+    overflow:    visible !important;   /* ← OPRAVA: hidden ořezávalo favicony */
+}
+
+/* Box s názvem stránky (text za faviconem) */
+.__sri-title-box {
+    min-width: 0;
+    flex:      1;      /* zabere zbylé místo po faviconě */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  [KARTA]  KARTY VÝSLEDKŮ
+ *
+ *  Material You styl: border-radius 16px, jemný vstupní efekt (fadeInUp).
+ *  HTML třídy karet: .search-result, .sri-group, .newsResultItem, atd.
+ *
+ *  ★ Chceš méně animace? Odstraň řádky "opacity/transform/animation".
+ *  ★ Chceš ostřejší rohy? Sniž border-radius.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.sri-group,
+.search-result,
+.newsResultItem,
+.podcast_result,
+.scene {
+    background-color: var(--secondary-bg);
+    border-radius:    16px;
+    padding:          1.2rem 1.4rem;
+    margin-bottom:    1rem;
+
+    /* Vstupní animace – karta se "vynoří" při načtení stránky */
+    opacity:          0;
+    transform:        translateY(20px);
+    animation:        fadeInUp 0.4s ease-out forwards;
+
+    border:           1px solid var(--border-color);
+    transition:       border-color 0.2s;
+}
+
+/* Hover stav karet – světlejší hrana */
+.sri-group:hover,
+.search-result:hover {
+    border-color: var(--surface2);
+}
+
+/* ── Widgety (Interesting Finds, Blast from Past) ──────────────────────
+ *  Tyto widgety nemají vlastní rámeček – jejich položky "plynou"
+ *  s ostatním obsahem. Odstraníme pozadí a hranice kontejneru.
+ * ─────────────────────────────────────────────────────────────────────── */
+.list-widget.inline-content .widgetContent {
+    background-color: transparent !important;
+    border:           none !important;
+    box-shadow:       none !important;
+    border-radius:    0 !important;
+    padding-left:     0 !important;
+    padding-right:    0 !important;
+}
+
+.list-widget.inline-content .widgetItem {
+    padding: 0.3rem 0;
+}
+
+/* Ostatní widgety (videa, odpovědi, Wolfram…) zachovají rámeček */
+.widgetContent {
+    background-color: var(--secondary-bg);
+    border-radius:    16px;
+    padding:          1.2rem 1.4rem;
+    margin-bottom:    1rem;
+    border:           1px solid var(--border-color);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  [ODKAZ]  BARVY ODKAZŮ
+ *
+ *  Logika barev odkazů:
+ *    • Nenavštívený  →  Rosewater (#f5e0dc) – světlý, jemně teplý
+ *    • Navštívený    →  Mauve (#cba6f7)      – fialová = "byl jsem tu"
+ *    • Hover         →  Flamingo (#f2cdcd)   – mírně teplejší než rosewater
+ *
+ *  ★ Chceš prohodit navštívený a nenavštívený?
+ *    Vyměň --rosewater a --mauve na řádcích níže.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Hlavní titulek výsledku (velký odkaz nahoře každé karty) ──────── */
+.__sri-title a,
+.__sri_title_link {
+    color:         var(--rosewater) !important;   /* nenavštívený */
+    border-bottom: none !important;
+    transition:    color 0.25s ease;
+}
+.__sri_title_link:hover {
+    color: var(--flamingo) !important;            /* hover */
+}
+a:visited.__sri_title_link {
+    color: var(--mauve) !important;               /* navštívený */
+}
+a:visited.__sri_title_link:hover {
+    color: var(--lavender) !important;
+}
+
+/* ── Sub-výsledky (.srgi = skupiny podstránek pod hlavním výsledkem) ── */
+.__srgi-title a,
+.__srgi-title a._0_URL,
+.sr-group .__srgi-title a {
+    color:      var(--sapphire) !important;       /* nenavštívený */
+    transition: color 0.25s;
+}
+.__srgi-title a:hover,
+.__srgi-title a._0_URL:hover {
+    color: var(--sky) !important;
+}
+a:visited.__srgi-title,
+.sr-group a:visited.__srgi-title {
+    color: var(--mauve) !important;               /* navštívený */
+}
+
+/* ── In-text linky (uvnitř popisků, AI shrnutí, wiki snippetu) ─────── */
+.__sri-body a,
+.__sri-desc a,
+.wiki-content-inner a,
+.wiki_desc_text a,
+.d-info-body a,
+.wikipediaContent a:not(.__title-text):not(.__domain-favicon),
+._0_result_page_summary a,
+.chat_bubble a {
+    color:                 var(--rosewater) !important;    /* nenavštívený */
+    text-decoration:       underline;
+    text-decoration-color: rgba(245, 224, 220, 0.35);     /* jemné podtržení */
+    transition:            color 0.2s, text-decoration-color 0.2s;
+}
+.__sri-body a:hover,
+.__sri-desc a:hover,
+.wiki-content-inner a:hover,
+.wiki_desc_text a:hover,
+.d-info-body a:hover,
+.wikipediaContent a:hover {
+    color:                 var(--flamingo) !important;
+    text-decoration-color: rgba(242, 205, 205, 0.6);
+}
+.__sri-body a:visited,
+.__sri-desc a:visited,
+.wiki-content-inner a:visited,
+.wiki_desc_text a:visited,
+.d-info-body a:visited,
+.wikipediaContent a:visited {
+    color: var(--mauve) !important;                        /* navštívený */
+}
+
+/* ── Widget linky (Interesting Finds, Blast from Past) ─────────────── */
+.widgetItem .__title-text,
+.__title-text._0_TITLE {
+    color:      var(--rosewater) !important;      /* nenavštívený */
+    transition: color 0.25s;
+}
+.widgetItem .__title-text:hover,
+.__title-text._0_TITLE:hover {
+    color: var(--flamingo) !important;
+}
+.widgetItem a:visited .__title-text,
+a:visited .__title-text._0_TITLE {
+    color: var(--mauve) !important;               /* navštívený */
+}
+
+/* ── Domain name chipy (malá URL adresa vedle widget linků) ─────────── */
+.__domain-name._0_rank-icons,
+.widgetItem .__domain-name {
+    color:     var(--overlay1) !important;
+    font-size: 0.78em;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  URL BREADCRUMB  (adresa ve formátu "domain.com › stránka")
+ *  Zobrazuje se pod titulkem každého výsledku.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.__sri-url-box {
+    margin-bottom:    10px;
+    background-color: var(--primary-bg);
+    border-radius:    10px;
+    padding:          6px 10px;
+}
+
+.__sri-url .host,
+.__sri-url .path {
+    color: var(--overlay1) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  ČASOVÁ RAZÍTKA  (datum u výsledků, např. "Feb 5, 2026")
+ *  ★ Chceš jinou barvu? Nahraď var(--yellow) za jiný token.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.__sri-time,
+.time-stamp {
+    color:   var(--yellow) !important;
+    opacity: 0.85;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  TRANSLATE BADGE  (odkaz "Přeložit stránku" pod výsledkem)
+ * ═══════════════════════════════════════════════════════════════════════ */
+.__sri-translate,
+a.__sri-translate {
+    color:      var(--peach) !important;
+    transition: color 0.2s;
+}
+.__sri-translate:hover {
+    color: var(--yellow) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  INLINE PANELY  (Wolfram, překladač, filtry, info sekce)
+ *  Hrana barvy Teal je vizuální signál "toto je interaktivní panel".
+ *  ★ Chceš jinou barvu hrany? Nahraď var(--teal) za jiný token.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.widget#translate,
+._0_filters-panel,
+.d-info-section,
+.question_form_box .q_form_wrapper,
+.wolfram-answer {
+    background-color: var(--secondary-bg);
+    border-radius:    16px;
+    padding:          1rem;
+    margin:           1rem 0;
+    border:           1px solid var(--teal);
+}
+
+/* AI shrnutí nad výsledky */
+._0_result_page_summary {
+    padding:          12px 16px;
+    border-radius:    16px;
+    border:           1px dashed var(--mauve);   /* přerušovaná hrana = AI obsah */
+    line-height:      1.6rem;
+    background-color: var(--primary-bg);
+}
+
+._0_results_summary_text { color: var(--secondary-fg); }
+
+.app-box,
+._0_result_page_summary,
+.d-info-body,
+.dark\:bg-graphite-900:where(.dark, .dark *) {
+    background-color: var(--secondary-bg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  [WIKI]  WIKIPEDIA WIDGET (pravý sloupec)
+ *
+ *  HTML struktura widgetu:
+ *    #wikipediaResults                ← vnější kontejner (Sapphire hrana)
+ *      └─ .scene                     ← vnitřní karta
+ *           └─ .wikipediaResult
+ *                └─ .card__face
+ *                     └─ .wikipediaContent
+ *                          ├─ .wiki-content-inner
+ *                          ├─ .wiki-top-row
+ *                          └─ .wiki_desc_text
+ *
+ *  OPRAVA DVOJITÉHO RÁMEČKU:
+ *    Předchozí CSS styloval jak #wikipediaResults, tak i .scene uvnitř.
+ *    To způsobovalo 2 vnořené rámečky. Nyní: hrana jen na #wikipediaResults,
+ *    .scene uvnitř nemá žádnou vlastní hranici.
+ *
+ *  BARVA ODKAZŮ (změna oproti v3):
+ *    Nenavštívené wiki linky jsou nyní Pink (#f5c2e7), ne Flamingo.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* Vnější kontejner – Mauve hrana (fialová) */
+#wikipediaResults {
+background-color: var(--secondary-bg);
+border-radius:    16px;
+padding:          1rem;
+margin:           1rem 0;
+border:           1px solid var(--mauve) !important;
+overflow:         visible;   /* dropdowny uvnitř nesmí být oříznuty */
+}
+
+/* Vnitřní .scene NEMÁ vlastní rámeček (jinak by byl dvojitý) */
+#wikipediaResults .scene {
+background-color: transparent !important;
+border:           none !important;
+border-radius:    0 !important;
+padding:          0 !important;
+margin:           0 !important;
+box-shadow:       none !important;
+/* Přepíšeme i animaci, aby se neopakovala animace z .scene pravidla */
+opacity:          1 !important;
+transform:        none !important;
+animation:        none !important;
+}
+
+/* Wikipedia odkaz "Přejít na Wikipedii" */
+.wiki-nw-link {
+    color:      var(--sapphire) !important;
+    transition: color 0.2s;
+}
+.wiki-nw-link:hover {
+    color: var(--sky) !important;
+}
+
+/* Titulek Wikipedia stránky (název článku) */
+.wikipediaFullPageLink a {
+    color:      var(--main-fg) !important;
+    transition: color 0.2s;
+}
+.wikipediaFullPageLink a:hover {
+    color: var(--lavender) !important;
+}
+
+/* Linky uvnitř wiki tabulky (typ operačního systému, vývojář, apod.) */
+.wiki-t-cell a {
+    color:      var(--pink) !important;       /* ★ Pink = nenavštívený */
+    transition: color 0.2s;
+}
+.wiki-t-cell a:hover {
+    color: var(--flamingo) !important;
+}
+.wiki-t-cell a:visited {
+    color: var(--mauve) !important;           /* navštívený */
+}
+
+/* Textové linky v popisku článku – Pink (místo původního Flamingo) */
+.wiki_desc_text a,
+.wiki-content-inner a,
+.wikipediaContent a:not(.__title-text):not(.__domain-favicon) {
+    color:                 var(--pink) !important;     /* ★ ZMĚNA: Pink */
+    text-decoration:       underline;
+    text-decoration-color: rgba(245, 194, 231, 0.35);
+    transition:            color 0.2s, text-decoration-color 0.2s;
+}
+.wiki_desc_text a:hover,
+.wiki-content-inner a:hover,
+.wikipediaContent a:hover {
+    color:                 var(--flamingo) !important;
+    text-decoration-color: rgba(242, 205, 205, 0.6);
+}
+.wiki_desc_text a:visited,
+.wiki-content-inner a:visited,
+.wikipediaContent a:visited {
+    color: var(--mauve) !important;
+}
+
+/* Hrana sekce .d-info-section – Sapphire (modrá) */
+.d-info-section {
+    border-color: var(--sapphire) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  CHAT BUBLINY  (odpovědi v Assistantu)
+ * ═══════════════════════════════════════════════════════════════════════ */
+#chat_box .chat_bubble {
+background-color: var(--primary-bg);
+border-radius:    16px;
+box-shadow:       0 8px 24px rgba(0, 0, 0, 0.4);
+padding:          1rem;
+margin-bottom:    1.5rem;
+margin-top:       1.5rem;
+border:           1px solid var(--border-color);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  SEZNAM CHATŮ  (postranní panel v Assistantu)
+ *
+ *  Aktivní chat má fialové pozadí (--mauve) a tmavý text (--crust).
+ *  Bez --crust textu by byl bílý text na fialové nečitelný.
+ *
+ *  ★ Chceš jinak zbarvený aktivní chat? Nahraď var(--mauve) za jiný token.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.thread-list > li {
+    border-radius: 12px;
+    transition:    background-color 0.2s, color 0.2s;
+}
+.thread-list > li:hover {
+    background-color: rgba(203, 166, 247, 0.15);   /* Mauve s průhledností */
+    color:            var(--main-fg);
+}
+.thread-list > li.active,
+.thread-list > li:focus-within {
+    background-color: var(--mauve);
+    color:            var(--crust) !important;      /* tmavý text pro čitelnost */
+}
+/* Musíme přebarvit i všechny potomky aktivní položky */
+.thread-list > li.active *,
+.thread-list > li:focus-within * {
+    color: var(--crust) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  [DROPDOWN]  ROZBALOVACÍ MENU
+ *
+ *  Na Kagi se vyskytují dva druhy dropdownů:
+ *
+ *  1) ._0_k_ui_dropdown / .k_ui_dropdown
+ *     – tlačítko "…" (More) u výsledků, navigační menu v hlavičce
+ *     – ovládá JavaScript: přidává třídu "--open" nebo inline style="display:block"
+ *
+ *  2) .dropdown.filter-item (s <input type="checkbox"> jako toggle)
+ *     – filtry nad výsledky (Region, Order By, Time, Options)
+ *     – Kagi's vlastní CSS: checkbox :checked → .dd-list se zobrazí
+ *
+ *  KLÍČOVÉ OPRAVY v této verzi:
+ *  a) NEPŘEPISUJEME "display" na .dd-list → necháme Kagi řídit show/hide
+ *  b) Přidáváme overflow:visible na všechny rodiče, které by dropdown ořízly
+ *  c) Karty výsledků (.search-result) musí mít overflow:visible, jinak
+ *     "…" menu uvnitř karty není vidět (Kagi's CSS pravděpodobně nastavuje
+ *     overflow:hidden pro border-radius effect)
+ *
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/*
+ * OVERFLOW FIX – rodiče dropdownů nesmí ořezávat jejich obsah.
+ *
+ * Proč: absolutně pozicovaný dropdown (position:absolute) se vizuálně
+ * ořízne, pokud jakýkoli předek má overflow:hidden nebo overflow:clip.
+ * Kagi's vlastní CSS toto nastavuje pro karty a panely.
+ * Zde to přepisujeme na "visible".
+ */
+.sri-group,
+.search-result,
+.newsResultItem {
+    overflow: visible !important;   /* umožní "…" menu vyčnět přes hranici karty */
+}
+
+.__sri_more_menu_box,
+.__sri_more_menu,
+._0_k_ui_dropdown {
+    overflow: visible !important;   /* anchor pro dropdown, nesmí ořezávat */
+}
+
+/* Lišta filtrů a její obal */
+.top-panel-box,
+.top-panel-box > .center-content-box,
+._0_filters-panel,
+.sidebar-filter-nav-form {
+    overflow: visible !important;
+}
+
+/* ── Kontejner filtrů (lišta nad výsledky) ─────────────────────────── */
+._0_filters-panel {
+    /* Zrušíme border z sekce INLINE PANELY výše – filtry border nepotřebují */
+    border:     none !important;
+    background: transparent !important;
+    padding:    0 !important;
+    margin:     0 !important;
+}
+
+.sidebar-filter-nav-form {
+    display:     flex;
+    flex-wrap:   wrap;
+    gap:         8px;
+    align-items: center;
+}
+
+/* ── Typ 1: .dropdown.filter-item (checkbox toggle filtry) ─────────── */
+.dropdown.filter-item {
+    position: relative;   /* anchor pro absolutně pozicovaný .dd-list */
+    display:  inline-block;
+    overflow: visible !important;
+}
+
+/* Viditelný label filtru ("Czechia (CZ)", "Order By", "Time"…) */
+.dropdown.filter-item .dd-toggle-label,
+.filter-item .dd-toggle-label {
+    display:          flex;
+    align-items:      center;
+    gap:              4px;
+    color:            var(--secondary-fg);
+    background-color: var(--secondary-bg);
+    border:           1px solid var(--border-color);
+    border-radius:    10px;
+    padding:          4px 10px;
+    transition:       border-color 0.2s, color 0.2s;
+    cursor:           pointer;
+    white-space:      nowrap;
+}
+.dropdown.filter-item .dd-toggle-label:hover {
+    border-color: var(--mauve);
+    color:        var(--main-fg);
+}
+
+/*
+ * .dd-list – rozbalovací seznam filtrů.
+ *
+ * DŮLEŽITÉ: NENASTAVUJEME "display:none" ani "display:block" zde.
+ * Kagi's vlastní CSS řídí viditelnost pomocí:
+ *   .dd-toggle:checked ~ .dd-list { display: block }
+ * Kdyby jsme nastavili display:none v naší CSS, mohlo by to bojovat
+ * s Kagi's mechanismem nebo s JS inline styly.
+ *
+ * My jen nastavujeme: pozici, z-index a vzhled.
+ */
+.dropdown.filter-item .dd-list,
+.dd-list {
+    position:         absolute !important;
+    top:              calc(100% + 4px) !important;
+    left:             0 !important;
+    z-index:          9999 !important;
+    min-width:        180px;
+    max-height:       320px;
+    overflow-y:       auto !important;
+    overflow-x:       hidden !important;
+
+    background-color: var(--secondary-bg) !important;
+    border:           1px solid var(--border-color) !important;
+    border-radius:    12px !important;
+    box-shadow:       0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* Vyhledávací pole uvnitř dlouhých dropdownů (seznam regionů) */
+.list_filter._0_k_ui_dropdown_sort_list_input {
+    background-color: var(--primary-bg) !important;
+    color:            var(--main-fg) !important;
+    border:           1px solid var(--border-color) !important;
+    border-radius:    8px !important;
+    padding:          4px 8px;
+    margin:           6px;
+    width:            calc(100% - 12px);
+    box-sizing:       border-box;
+}
+
+/* ── Typ 2: ._0_k_ui_dropdown (JS-ovládaná menu) ───────────────────── */
+/*
+ * Kagi's JavaScript ovládá viditelnost těchto menu – přidává třídu "--open"
+ * nebo nastavuje inline style="display:block" na .k_ui_dropdown_data_list.
+ * My jen nastavujeme vizuální styl a zajišťujeme správnou pozici.
+ *
+ * position: relative na rodiči = anchor pro absolutní data-list
+ */
+.__sri_more_menu,
+._0_k_ui_dropdown,
+.k_ui_dropdown {
+    position: relative;
+}
+
+._0_k_ui_dropdown_data_list,
+.k_ui_dropdown_data_list {
+    position:         absolute !important;
+    z-index:          9999 !important;
+    top:              100% !important;
+    right:            0 !important;    /* zarovnání doprava od tlačítka "…" */
+    left:             auto !important;
+    min-width:        200px;
+
+    background-color: var(--secondary-bg) !important;
+    border:           1px solid var(--border-color) !important;
+    border-radius:    14px !important;
+    box-shadow:       0 8px 32px rgba(0, 0, 0, 0.6);
+    color:            var(--main-fg) !important;
+    overflow-y:       auto !important;
+    overflow-x:       hidden !important;
+}
+
+/* ── Položky v dropdown menu ───────────────────────────────────────── */
+.inner-label {
+    color:            var(--secondary-fg) !important;
+    background-color: transparent !important;
+    transition:       background-color 0.15s, color 0.15s;
+    display:          block;
+    padding:          6px 14px;
+    text-decoration:  none;
+}
+.inner-label:hover {
+    background-color: rgba(203, 166, 247, 0.15) !important;
+    color:            var(--main-fg) !important;
+}
+
+/* Aktuálně zvolená volba (aktivní filtr) */
+.inner-label.checked {
+    color:       var(--mauve) !important;
+    font-weight: 600;
+}
+.inner-label.checked:hover {
+    background-color: rgba(203, 166, 247, 0.2) !important;
+}
+
+/* Položky JS dropdownu */
+._0_k_ui_dropdown_li {
+    color:           var(--secondary-fg) !important;
+    display:         block;
+    padding:         7px 14px;
+    text-decoration: none;
+    transition:      background-color 0.15s, color 0.15s;
+}
+._0_k_ui_dropdown_li:hover {
+    background-color: rgba(203, 166, 247, 0.15) !important;
+    color:            var(--main-fg) !important;
+}
+
+/* Hover stav v dropdown akcích u výsledků */
+.dropdown .dd-list li.--hover,
+.dropdown .dd-list li:hover,
+.thread-more-menu button:hover,
+.chat_bubble .actions a:hover,
+.chat_bubble .actions button:hover,
+._0_discuss_document_btn:hover,
+.read-more-inline:hover,
+.smw:hover {
+    background-color: var(--mauve);
+    color:            var(--crust) !important;
+    border-radius:    8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  FILTER CHIPY  (přepínače "PDFs", "Reddit"…)
+ *  Zobrazují se nahoře nad výsledky vyhledávání.
+ *  ★ Chceš jinak zbarvený aktivní chip? Nahraď --mauve za jiný token.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.chip-group .chip-button[aria-checked="true"] {
+    background-color: var(--mauve) !important;
+    border-color:     var(--mauve) !important;
+    color:            var(--crust) !important;
+    border-radius:    12px !important;
+}
+.chip-group .chip-button[aria-checked="false"] {
+    background-color: var(--primary-bg) !important;
+    border-color:     var(--border-color) !important;
+    color:            var(--secondary-fg) !important;
+    border-radius:    12px !important;
+}
+.chip-group .chip-button:hover {
+    background-color: var(--lavender) !important;
+    color:            var(--crust) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  PILL TLAČÍTKA  ("Read more", "Summarize", "Continue in Assistant")
+ *  Malé kulaté tlačítko na konci výsledku.
+ *  ★ Výchozí barva: Mauve · Hover: Lavender
+ * ═══════════════════════════════════════════════════════════════════════ */
+.read-more-inline,
+._0_discuss_document_btn,
+._0_summarize_link,
+.smw {
+    background-color: var(--mauve);
+    color:            var(--crust) !important;
+    border-radius:    12px;
+    padding:          4px 12px;
+    transition:       all 0.25s ease;
+    font-weight:      500;
+}
+
+/* SVG ikona uvnitř tlačítka */
+.read-more-inline svg,
+._0_discuss_document_btn svg,
+._0_summarize_link svg,
+.smw svg {
+    color:      var(--crust) !important;
+    transition: transform 0.25s;
+}
+
+/* Hover stav – světlejší lavender, ikona se posune doprava */
+.read-more-inline:hover,
+._0_discuss_document_btn:hover,
+._0_summarize_link:hover,
+.smw:hover {
+    background-color: var(--lavender);
+}
+.read-more-inline:hover svg,
+._0_discuss_document_btn:hover svg,
+._0_summarize_link:hover .ic svg,
+.smw:hover svg {
+    transform: translateX(4px) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  LEPKAVÝ PROMPT BOX  (vstupní pole v Assistantu dole stránky)
+ * ═══════════════════════════════════════════════════════════════════════ */
+#prompt-box {
+flex-grow:      unset !important;
+bottom:         0;
+margin-top:     auto;
+padding-bottom: calc(8px + env(safe-area-inset-bottom));
+position:       sticky;
+z-index:        101;
+background:     rgba(24, 24, 37, 0.78);
+backdrop-filter:         blur(16px);
+-webkit-backdrop-filter: blur(16px);
+border:         1px solid rgba(69, 71, 90, 0.5);
+border-radius:  20px 20px 0 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  SKRYTÉ PRVKY
+ *  Tyto prvky jsou skryty jako estetické vylepšení (zbytečná UI).
+ *  ★ Chceš zobrazit? Zakomentuj nebo smaž odpovídající řádek.
+ * ═══════════════════════════════════════════════════════════════════════ */
+.header_links,        /* navigační linky v hlavičce (Settings, Pricing…) */
+._0_landing_filters,  /* filtry na landing stránce */
+._0_land_cat_box,     /* kategoriový box na landing stránce */
+.land_adv_search_btn  /* tlačítko Advanced na landing stránce */
+{
+    display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+ *  SPECIÁLNÍ VÝSLEDKY
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* Boosted výsledky – zelená linka na levé straně karty */
+._0_RESULT_BOOSTED {
+    border-left:   3px solid var(--green) !important;
+    border-radius: 0 16px 16px 0 !important;
+}
+
+/* Sekce widgetů – nadpisy (Interesting Finds, Videos, Blast from Past) */
+.widgetContent .widget-icon-title,
+.inlineHeader,
+.widget-title {
+    color: var(--pink) !important;   /* Pink = výrazná, ale ne příliš hlasitá */
+}
+
+/* Oddělovací čáry */
+hr {
+    border-color: var(--surface1);
+    opacity:      0.55;
+}
+
