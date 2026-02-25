@@ -63,15 +63,15 @@ This Catppuccin theme is focused on beaing softer, less neon, and more professio
 ---
 To change font from sans-serif to monospace change this:
 ```
-/* Set monospace/sans-serif font for the entire interface */
-body {
-  font-family: sans-serif;
+/* === FONT === */
+
+body { font-family: sans-serif; }
 ```
 to this:
 ```
-/* Set monospace/sans-serif font for the entire interface */
-body {
-  font-family: monospace;
+/* === FONT === */
+
+body { font-family: monospace; }
 ```
 
 ---
