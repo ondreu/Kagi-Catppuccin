@@ -38,20 +38,17 @@ This Catppuccin theme is focused on beaing softer, less neon, and more professio
 
 ---
 ## Screenshots
-##### Homepage
-![Homepage](https://github.com/ondreu/Kagi-Catppuccin/blob/a7b44a838dee7eb1a2d524f5078e3a74c4a33816/Images/home.png)
-
-##### Activated Homepage
-![Homepage with glowing searchbar](https://github.com/ondreu/Kagi-Catppuccin/blob/a7b44a838dee7eb1a2d524f5078e3a74c4a33816/Images/home2.png)
+##### Active homepage
+![homepage](https://github.com/ondreu/Kagi-Catppuccin/blob/c6703f870dca673c62202bd87aafe8efc0654e05/Images/homeactive.png)
 
 ##### Example of search results with quick answer
-![search page](https://github.com/ondreu/Kagi-Catppuccin/blob/a7b44a838dee7eb1a2d524f5078e3a74c4a33816/Images/searchexampleAI.png)
+![result example](https://github.com/ondreu/Kagi-Catppuccin/blob/c6703f870dca673c62202bd87aafe8efc0654e05/Images/quickresults.png)
 
 ##### Images results page
-![images result page](https://github.com/ondreu/Kagi-Catppuccin/blob/a7b44a838dee7eb1a2d524f5078e3a74c4a33816/Images/images.png)
+![image](https://github.com/ondreu/Kagi-Catppuccin/blob/c6703f870dca673c62202bd87aafe8efc0654e05/Images/images.png)
 
 ##### Kagi Assistant 
-![Kagi assistant chat](https://github.com/ondreu/Kagi-Catppuccin/blob/a7b44a838dee7eb1a2d524f5078e3a74c4a33816/Images/assistant.png)
+![assistant](https://github.com/ondreu/Kagi-Catppuccin/blob/c6703f870dca673c62202bd87aafe8efc0654e05/Images/assist.png)
 
 **You can take a look at more images in the images directory**
 
@@ -62,6 +59,20 @@ This Catppuccin theme is focused on beaing softer, less neon, and more professio
 3. Go to Kagi setting -> Appearance -> Custom CSS|Change
 4. Paste the copied text into the window and save changes.
 5. Toogle Custom CSS switch.
+
+---
+To change font from sans-serif to monospace change this:
+```
+/* Set monospace/sans-serif font for the entire interface */
+body {
+  font-family: sans-serif;
+```
+to this:
+```
+/* Set monospace/sans-serif font for the entire interface */
+body {
+  font-family: monospace;
+```
 
 ---
 Feel free to fork this CSS.
