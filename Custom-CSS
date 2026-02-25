@@ -1,83 +1,54 @@
-/* ============================================================
-   Kagi – Catppuccin Mocha (Refined Layout Edition)
-   ============================================================ */
+/* Kagi - Catppuccin Mocha */
 
-
-/* ───────────────────────────
-   PALETTE
-   Change colors here as you wish.
-   The entire theme uses these variables – just update a value
-   once and it changes everywhere automatically.
-   ─────────────────────────── */
+/* === PALETTE ===
+   Edit colors here - variables are used everywhere below. */
 
 :root {
-  --ctp-base:     #1e1e2e; /* Page background color */
-  --ctp-surface0: #313244; /* Search result card color */
-  --ctp-surface1: #45475a; /* Border / outline color */
-  --ctp-surface2: #585b70; /* Secondary surface (unused for now) */
+  --ctp-base:     #1e1e2e;
+  --ctp-surface0: #313244;
+  --ctp-surface1: #45475a;
+  --ctp-surface2: #585b70;
 
-  --ctp-text:     #cdd6f4; /* Main text color */
-  --ctp-mauve:    #cba6f7; /* Accent – hover, focus, Wikipedia */
-  --ctp-lavender: #b4befe; /* Light purple (unused for now) */
-  --ctp-pink:     #f5c2e7; /* Pink (unused for now) */
-  --ctp-green:    #a6e3a1; /* Left stripe on boosted results */
-  --ctp-sapphire: #74c7ec; /* Sub-link color */
-  --ctp-sky:      #89dceb; /* Sub-link color on hover */
-  --ctp-rose:     #f5e0dc; /* Result title color */
-  --ctp-flamingo: #f2cdcd; /* Result title color on hover */
+  --ctp-text:     #cdd6f4;
+  --ctp-mauve:    #cba6f7;
+  --ctp-lavender: #b4befe;
+  --ctp-pink:     #f5c2e7;
+  --ctp-green:    #a6e3a1;
+  --ctp-sapphire: #74c7ec;
+  --ctp-sky:      #89dceb;
+  --ctp-rose:     #f5e0dc;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-peach:    #fab387;
+  --ctp-yellow:   #f9e2af;
+  --ctp-teal:     #94e2d5;
+  --ctp-blue:     #89b4fa;
+  --ctp-maroon:   #eba0ac;
 }
 
+/* === FONT === */
 
-/* ───────────────────────────
-   FONT
-   Sets the font for the entire interface.
-   Want a proportional font instead? Replace "monospace" with e.g.:
-   system-ui, "Segoe UI", sans-serif
-   ─────────────────────────── */
+body { font-family: sans-serif; }
 
-/* Set monospace/sans-serif font for the entire interface */
-body {
-  font-family: sans-serif;
-}
-
-
-/* ───────────────────────────
-   BASE
-   Background and text color for the entire page.
-   ─────────────────────────── */
+/* === BASE === */
 
 html, body {
   background: var(--ctp-base) !important;
   color: var(--ctp-text) !important;
 }
 
-
-/* ───────────────────────────
-   HEADER
-   Top bar – sticks to the top while scrolling,
-   with transparency and background blur.
-   To change transparency: adjust rgba(30,30,46, X) where X is 0–1.
-   ─────────────────────────── */
+/* === HEADER === */
 
 .app-header.app-content-box {
   position: sticky;
   top: 0;
   z-index: 120;
-
   background: rgba(30,30,46,0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-
   border-bottom: 1px solid var(--ctp-surface1);
 }
 
-
-/* ───────────────────────────
-   SEARCH BAR
-   Search field – shape, color, focus effect.
-   border-radius: 2rem = heavily rounded (pill shape).
-   Want sharper corners? Try 8px or 0.
-   ─────────────────────────── */
+/* === SEARCH BAR === */
 
 .search-input-container {
   background: var(--ctp-surface0) !important;
@@ -86,7 +57,6 @@ html, body {
   transition: 0.2s ease;
 }
 
-/* Border highlight while typing */
 .search-input-container:focus-within {
   border-color: var(--ctp-mauve) !important;
   box-shadow: 0 0 0 3px rgba(203,166,247,0.18);
@@ -95,46 +65,31 @@ html, body {
 .search-input-container input {
   color: var(--ctp-text) !important;
   background: transparent !important;
-  caret-color: var(--ctp-mauve); /* Cursor color while typing */
+  caret-color: var(--ctp-mauve);
 }
 
-
-/* ───────────────────────────
-   LAYOUT
-   Subtle indentation of the entire results column.
-   Want results shifted more to the left? Decrease padding-left.
-   ─────────────────────────── */
+/* === LAYOUT === */
 
 .search_results_container {
   padding-left: 2.2rem;
   padding-right: 2rem;
 }
 
-
-/* ───────────────────────────
-   RESULT CARDS
-   Each search result is a card with a border.
-   border-radius: 16px = rounded card corners.
-   margin-bottom: 1rem = gap between cards.
-   ─────────────────────────── */
+/* === RESULT CARDS === */
 
 .sri-group,
 .search-result,
 .newsResultItem,
 .scene {
   box-sizing: border-box;
-
   background: var(--ctp-surface0);
   border: 1px solid var(--ctp-surface1);
   border-radius: 16px;
-
   padding: 1.2rem 1.4rem;
   margin-bottom: 1rem;
-
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect – purple border + subtle glow on mouse-over */
 .sri-group:hover,
 .search-result:hover {
   border-color: var(--ctp-mauve);
@@ -143,13 +98,7 @@ html, body {
     0 6px 28px rgba(203,166,247,0.12);
 }
 
-
-/* ───────────────────────────
-   BOOSTED / RAISED / PINNED
-   Results you have manually boosted or blocked
-   get a green stripe on the left edge.
-   Want a different color? Change var(--ctp-green).
-   ─────────────────────────── */
+/* === BOOSTED / RAISED / PINNED === */
 
 .search-result._0_RESULT_BOOSTED,
 .search-result._0_RESULT_RAISED,
@@ -157,12 +106,7 @@ html, body {
   box-shadow: inset 3px 0 0 var(--ctp-green);
 }
 
-
-/* ───────────────────────────
-   RESULT TITLES
-   Color of the link headings in search results.
-   Visited = color of already-visited links.
-   ─────────────────────────── */
+/* === RESULT TITLES === */
 
 .__sri-title a,
 .__sri_title_link {
@@ -170,21 +114,15 @@ html, body {
   transition: color 0.2s ease;
 }
 
-/* Color on hover */
 .__sri_title_link:hover {
   color: var(--ctp-flamingo) !important;
 }
 
-/* Color of visited links */
 a:visited.__sri_title_link {
   color: var(--ctp-mauve) !important;
 }
 
-
-/* ───────────────────────────
-   SUB-LINKS (sitelinks)
-   Smaller supplementary links below the main result.
-   ─────────────────────────── */
+/* === SUB-LINKS (sitelinks) === */
 
 .__srgi-title a {
   color: var(--ctp-sapphire) !important;
@@ -194,13 +132,7 @@ a:visited.__sri_title_link {
   color: var(--ctp-sky) !important;
 }
 
-
-/* ───────────────────────────
-   FAVICON FIX
-   Fixes display of site icons to the left of the title.
-   Don't want icons? Set display: none !important
-   on .__domain-favicon.
-   ─────────────────────────── */
+/* === FAVICON FIX === */
 
 .__sri-title {
   display: flex !important;
@@ -213,24 +145,45 @@ img.__domain-favicon {
   width: 16px !important;
   height: 16px !important;
   min-width: 16px !important;
-
   object-fit: contain;
   border-radius: 4px;
-
   margin-right: 8px;
   margin-top: 3px;
-
   display: inline-block !important;
   visibility: visible !important;
 }
 
+/* === URL PILL BOX === */
 
-/* ───────────────────────────
-   WIKIPEDIA WIDGET
-   Info box with Wikipedia content to the right of results.
-   The purple border distinguishes it from other cards.
-   Want a different border color? Change --ctp-mauve.
-   ─────────────────────────── */
+.__sri_url_path_box {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--ctp-surface1);
+  border: 1px solid var(--ctp-surface2);
+  border-radius: 99px;
+  padding: 1px 7px 1px;      /* zvětšen padding (byl 1px 10px 2px) */
+  font-size: 0.85em;           /* zvětšen font (byl 0.78em) */
+  line-height: 1.6;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.__sri-url:hover .__sri_url_path_box {
+  background: var(--ctp-surface2);
+  border-color: var(--ctp-mauve);
+}
+
+/* === RESULT DATE === */
+
+.__sri-time {
+  color: var(--ctp-lavender) !important;
+}
+
+/* === WIKIPEDIA WIDGET === */
 
 #wikipediaResults {
   background: var(--ctp-surface0);
@@ -239,19 +192,60 @@ img.__domain-favicon {
   padding: 1rem;
 }
 
-/* Inner card inside the Wikipedia widget – transparent, no border */
 #wikipediaResults .scene {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
 
+#wikipediaResults a:not(:visited) {
+  color: var(--ctp-flamingo) !important;
+  transition: color 0.2s ease;
+}
 
-/* ───────────────────────────
-   DROPDOWN FIX
-   Fixes clipping of dropdown menus (e.g. "more options").
-   Don't touch if menus are working correctly.
-   ─────────────────────────── */
+#wikipediaResults a:not(:visited):hover {
+  color: var(--ctp-rose) !important;
+}
+
+/* === QUICK ANSWER / ASSISTANT BOX === */
+
+.qa-container-box a:not(:visited),
+._0_quick_answer_box a:not(:visited) {
+  color: var(--ctp-flamingo) !important;
+  transition: color 0.2s ease;
+}
+
+.qa-container-box a:not(:visited):hover,
+._0_quick_answer_box a:not(:visited):hover {
+  color: var(--ctp-rose) !important;
+}
+
+/* === NAV TABS hover (All / Images / Videos...) === */
+
+.nav_item._0_query_link_item:not(.--active):hover {
+  color: var(--ctp-peach) !important;
+  transition: color 0.15s ease;
+}
+
+.nav_item._0_query_link_item.--active {
+  color: var(--ctp-mauve) !important;
+}
+
+/* === FILTER BAR hover (Region / Order By / Time / Options) === */
+
+.dd-toggle-label:hover,
+.dd-toggle-label:hover .textContent {
+  color: var(--ctp-yellow) !important;
+  transition: color 0.15s ease;
+}
+
+.filter-item-inner > a:hover,
+#menu-advanced-search-toggle:hover {
+  color: var(--ctp-yellow) !important;
+  transition: color 0.15s ease;
+}
+
+/* === DROPDOWN OVERFLOW FIX === */
 
 .sri-group,
 .search-result,
@@ -261,15 +255,9 @@ img.__domain-favicon {
   overflow: visible !important;
 }
 
-
-/* ───────────────────────────
-   MOBILE
-   Adjustments for screens narrower than 768px (phone/tablet).
-   Smaller border radius and padding on cards.
-   ─────────────────────────── */
+/* === MOBILE === */
 
 @media (max-width: 768px) {
-
   .search-result,
   .sri-group {
     padding: 1rem;
@@ -280,5 +268,4 @@ img.__domain-favicon {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-
 }
