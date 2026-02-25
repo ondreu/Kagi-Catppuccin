@@ -1,925 +1,246 @@
-/*
- * Kagi Search – Catppuccin Mocha Theme  v5
- *
- * FIND KEYS:  [COLORS] [LINKS] [CARDS] [DROPDOWN] [FAVICON] [WIKI]
- */
+/* ============================================================
+   Kagi – Catppuccin Mocha (Refined Layout Edition)
+   - Mauve hover border restored
+   - Boosted fix via inset box-shadow
+   - Micro layout alignment tweak
+   ============================================================ */
 
 
-/* ── Animations ────────────────────────────────────────────────────── */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    /* transform:none here is intentional – removes stacking context after
-       animation ends so child dropdowns can escape the card's z-order. */
-    to   { opacity: 1; transform: none; }
-}
+/* ───────────────────────────
+   PALETA
+   ─────────────────────────── */
 
-@keyframes moveBackground {
-    0%, 100% { transform: translate(0, 0); }
-    25%       { transform: translate(5%, 10%); }
-    50%       { transform: translate(-5%, 15%); }
-    75%       { transform: translate(10%, 5%); }
-}
-
-
-/* ── [COLORS]  Catppuccin Mocha palette ─────────────────────────────
- *  ★ To change the primary accent, replace --mauve and --lavender.
- * ─────────────────────────────────────────────────────────────────── */
 :root {
-    --font-lufga: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-    'Helvetica Neue', sans-serif;
+  --ctp-base:     #1e1e2e;
+  --ctp-surface0: #313244;
+  --ctp-surface1: #45475a;
+  --ctp-surface2: #585b70;
 
-    /* Backgrounds (darkest → lightest) */
-    --crust:        #11111b;
-    --mantle:       #181825;
-    --main-bg:      #1e1e2e;
-    --primary-bg:   #28293d;
-    --primary-25:   #313244;
-    --primary-50:   #313244;
-    --primary-70:   #3a3b52;
-    --secondary-bg: #313244;
-    --surface1:     #45475a;
-    --surface2:     #585b70;
-
-    /* Text */
-    --main-fg:      #cdd6f4;
-    --secondary-fg: #bac2de;
-    --overlay1:     #7f849c;
-    --overlay0:     #6c7086;
-
-    /* Accents */
-    --mauve:        #cba6f7;
-    --lavender:     #b4befe;
-    --pink:         #f5c2e7;
-    --flamingo:     #f2cdcd;
-    --rosewater:    #f5e0dc;
-    --blue:         #89b4fa;
-    --sapphire:     #74c7ec;
-    --sky:          #89dceb;
-    --teal:         #94e2d5;
-    --green:        #a6e3a1;
-    --yellow:       #f9e2af;
-    --peach:        #fab387;
-    --maroon:       #eba0ac;
-    --red:          #f38ba8;
-
-    /* Semantic tokens */
-    --border-color:              var(--surface1);
-    --search-result-title-hover: var(--lavender);
-    --primary-visited:           var(--mauve);
-    --button-color:              var(--mauve);
-    --button-hover-color:        var(--lavender);
-    --source-highlight-color:    var(--green);
-    --sri-hover-color:           var(--mauve);
-    --color-search-input:        var(--secondary-bg);
-    --color-search-input-border: var(--border-color);
-    --time-stamp:                rgba(249, 226, 175, 0.75);
-    --m_sri_gap_color:           var(--primary-bg) !important;
-    --app-text:                  var(--main-fg) !important;
-    --secondary-text:            var(--secondary-fg);
-    --app-bg:                    var(--main-bg);
-    --inline-widget-bg:          var(--secondary-bg);
-    --primary-hover:             var(--mauve);
+  --ctp-text:     #cdd6f4;
+  --ctp-mauve:    #cba6f7;
+  --ctp-lavender: #b4befe;
+  --ctp-pink:     #f5c2e7;
+  --ctp-green:    #a6e3a1;
+  --ctp-sapphire: #74c7ec;
+  --ctp-sky:      #89dceb;
+  --ctp-rose:     #f5e0dc;
+  --ctp-flamingo: #f2cdcd;
 }
 
 
-/* ── Base background ─────────────────────────────────────────────── */
-body, html {
-    background-color: var(--main-bg) !important;
-    font-family: var(--font-lufga), system-ui;
-}
+/* ───────────────────────────
+   ZÁKLAD
+   ─────────────────────────── */
 
-.body-content {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    background-color: transparent;
+html, body {
+  background: var(--ctp-base) !important;
+  color: var(--ctp-text) !important;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 
-/* ── Scrollbar ───────────────────────────────────────────────────── */
-::-webkit-scrollbar               { width: 10px; height: 10px; }
-::-webkit-scrollbar-track         { background: var(--mantle); }
-::-webkit-scrollbar-thumb {
-    background:    var(--mauve);
-    border-radius: 8px;
-    border:        2px solid var(--mantle);
-}
-::-webkit-scrollbar-thumb:hover   { background: var(--lavender); }
+/* ───────────────────────────
+   HEADER
+   ─────────────────────────── */
 
-
-/* ── Sticky header  (frosted glass) ─────────────────────────────── */
 .app-header.app-content-box {
-    position:    sticky;
-    top:         0;
-    z-index:     114;
-    background:  rgba(30, 30, 46, 0.72);
-    backdrop-filter:         blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border:                  1px solid rgba(69, 71, 90, 0.5);
-    border-top:              none;
-    border-bottom-left-radius:  24px;
-    border-bottom-right-radius: 24px;
-    box-shadow:  0 4px 20px rgba(0, 0, 0, 0.5);
-    /* overflow:visible keeps dropdown menus from being clipped */
-    overflow: visible !important;
+  position: sticky;
+  top: 0;
+  z-index: 120;
+
+  background: rgba(30,30,46,0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid var(--ctp-surface1);
 }
 
 
-/* ── Search input ────────────────────────────────────────────────── */
-.search-form .search-input-container,
+/* ───────────────────────────
+   SEARCH BAR
+   ─────────────────────────── */
+
 .search-input-container {
-    background-color: var(--secondary-bg) !important;
-    border:           1px solid var(--border-color) !important;
-    border-radius:    2.5rem !important;
-    /* Subtle ambient glow – no hover shadow (removed per request) */
-    box-shadow:       0 0 14px rgba(203, 166, 247, 0.12) !important;
-    transition:       all 0.3s ease;
+  background: var(--ctp-surface0) !important;
+  border: 1px solid var(--ctp-surface1) !important;
+  border-radius: 2rem !important;
+  transition: 0.2s ease;
 }
 
-/* Focus only – no extra shadow on plain hover */
-.search-form .search-input-container:focus-within {
-    background-color: var(--primary-70) !important;
-    border-color:     var(--mauve) !important;
-    box-shadow:       0 0 0 3px rgba(203, 166, 247, 0.18) !important;
+.search-input-container:focus-within {
+  border-color: var(--ctp-mauve) !important;
+  box-shadow: 0 0 0 3px rgba(203,166,247,0.18);
 }
 
-/* Hover without focus: just tighten the border, no shadow */
-.search-input-container:hover:not(:focus-within) {
-    background-color: var(--primary-70) !important;
-    border-color:     var(--mauve) !important;
-    box-shadow:       none !important;
-}
-
-.search-input,
 .search-input-container input {
-    color:            var(--main-fg) !important;
-    background-color: transparent !important;
-    caret-color:      var(--mauve) !important;
-}
-
-.search-input-container input::placeholder {
-    color:   var(--overlay0) !important;
-    opacity: 0.85;
+  color: var(--ctp-text) !important;
+  background: transparent !important;
+  caret-color: var(--ctp-mauve);
 }
 
 
-/* ── Autocomplete ────────────────────────────────────────────────── */
-.auto_suggestions {
-    background-color: var(--secondary-bg) !important;
-    border:           1px solid var(--border-color) !important;
-    border-radius:    1.5rem !important;
-    box-shadow:       0 12px 28px rgba(0, 0, 0, 0.45);
-    z-index:          120;
-    overflow:         hidden;
-}
+/* ───────────────────────────
+   LAYOUT MICRO POSUN
+   (jemné dorovnání celé kolony)
+   ─────────────────────────── */
 
-.auto_suggestions_footer {
-    background-color: var(--primary-bg) !important;
-    border-top:       1px solid var(--border-color);
-}
-
-.auto_suggestions .suggestions_area {
-    background-color: var(--secondary-bg) !important;
-}
-
-.auto_suggestions .auto_item {
-    color:      var(--main-fg);
-    transition: background 0.2s;
-}
-
-.auto_suggestions .auto_item.highlighted {
-    background-color: var(--mauve);
-    color:            var(--crust);
+.search_results_container {
+  padding-left: 2.2rem; /* původně cca 2rem → lehký posun doprava */
+  padding-right: 2rem;
 }
 
 
-/* ── [FAVICON]  Domain icons ─────────────────────────────────────── */
-.__domain-favicon,
-img.__domain-favicon,
-.search-result .__domain-favicon,
-.sri-group .__domain-favicon,
-.__sri-title .__domain-favicon,
-.__sri-title > img,
-.search-result .__sri-title img {
-    width:      16px !important;
-    height:     16px !important;
-    min-width:  16px !important;
-    max-width:  16px !important;
-    object-fit: contain;
-    border-radius: 4px;
-    flex-shrink: 0;
-    margin-right: 6px;
-    margin-top:   3px;
-    align-self: flex-start;
-    display:    inline-block !important;
-    visibility: visible !important;
-    opacity:    1 !important;
-    overflow:   visible !important;
-    clip:        auto !important;
-    clip-path:   none !important;
-}
+/* ───────────────────────────
+   KARTY VÝSLEDKŮ
+   ─────────────────────────── */
 
-/* Title row: flex layout so favicon sits beside text */
-.__sri-title {
-    display:     flex !important;
-    align-items: flex-start;
-    overflow:    visible !important;
-}
-
-.__sri-title-box {
-    min-width: 0;
-    flex:      1;
-}
-
-
-/* ── [CARDS]  Search result cards ───────────────────────────────────
- *  Uses fadeInUp. `transform:none` in the keyframe's `to` is critical –
- *  it prevents a persistent stacking context that would hide dropdown menus.
- * ─────────────────────────────────────────────────────────────────── */
 .sri-group,
 .search-result,
 .newsResultItem,
-.podcast_result,
 .scene {
-    background-color: var(--secondary-bg);
-    border-radius:    16px;
-    padding:          1.2rem 1.4rem;
-    margin-bottom:    1rem;
-    opacity:          0;
-    transform:        translateY(20px);
-    animation:        fadeInUp 0.4s ease-out forwards;
-    border:           1px solid var(--border-color);
-    transition:       border-color 0.2s;
+
+  box-sizing: border-box;
+
+  background: var(--ctp-surface0);
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 16px;
+
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1rem;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Changed hover border from surface2 (grey) to mauve */
+/* 🔥 MAUVE HOVER HRANA (vráceno) */
 .sri-group:hover,
 .search-result:hover {
-    border-color: var(--mauve);
-}
-
-/* Karta která má otevřený dropdown musí být nad ostatními */
-.sri-group:has(._0_k_ui_dropdown_data_list),
-.search-result:has(._0_k_ui_dropdown_data_list) {
-    z-index: 200 !important;
-}
-
-/* Inline widgets (Interesting Finds, Blast from Past) – no card frame */
-.list-widget.inline-content .widgetContent {
-    background-color: transparent !important;
-    border:           none !important;
-    box-shadow:       none !important;
-    border-radius:    0 !important;
-    padding-left:     0 !important;
-    padding-right:    0 !important;
-}
-
-.list-widget.inline-content .widgetItem {
-    padding: 0.3rem 0;
-}
-
-/* Other widgets keep their border */
-.widgetContent {
-    background-color: var(--secondary-bg);
-    border-radius:    16px;
-    padding:          1.2rem 1.4rem;
-    margin-bottom:    1rem;
-    border:           1px solid var(--border-color);
+  border-color: var(--ctp-mauve);
+  box-shadow:
+    0 0 0 1px rgba(203,166,247,0.25),
+    0 6px 28px rgba(203,166,247,0.12);
 }
 
 
-/* ── [LINKS]  Link colors ────────────────────────────────────────────
- *  Unvisited → Rosewater  |  Visited → Mauve  |  Hover → Flamingo
- * ─────────────────────────────────────────────────────────────────── */
+/* ───────────────────────────
+   BOOSTED / RAISED / PINNED
+   ─────────────────────────── */
+
+.search-result._0_RESULT_BOOSTED,
+.search-result._0_RESULT_RAISED,
+.search-result._0_RESULT_PINNED {
+
+  /* Layout-safe zvýraznění */
+  box-shadow:
+    inset 3px 0 0 var(--ctp-green);
+}
+
+
+/* ───────────────────────────
+   TITULKY ODKAZŮ
+   ─────────────────────────── */
+
 .__sri-title a,
 .__sri_title_link {
-    color:         var(--rosewater) !important;
-    border-bottom: none !important;
-    transition:    color 0.25s ease;
+  color: var(--ctp-rose) !important;
+  transition: color 0.2s ease;
 }
+
 .__sri_title_link:hover {
-    color: var(--flamingo) !important;
+  color: var(--ctp-flamingo) !important;
 }
+
 a:visited.__sri_title_link {
-    color: var(--mauve) !important;
-}
-a:visited.__sri_title_link:hover {
-    color: var(--lavender) !important;
-}
-
-/* Sub-results (.srgi) */
-.__srgi-title a,
-.__srgi-title a._0_URL,
-.sr-group .__srgi-title a {
-    color:      var(--sapphire) !important;
-    transition: color 0.25s;
-}
-.__srgi-title a:hover,
-.__srgi-title a._0_URL:hover {
-    color: var(--sky) !important;
-}
-a:visited.__srgi-title,
-.sr-group a:visited.__srgi-title {
-    color: var(--mauve) !important;
-}
-
-/* In-text links (descriptions, AI summaries, wiki snippets) */
-.__sri-body a,
-.__sri-desc a,
-.wiki-content-inner a,
-.wiki_desc_text a,
-.d-info-body a,
-.wikipediaContent a:not(.__title-text):not(.__domain-favicon),
-._0_result_page_summary a,
-.chat_bubble a {
-    color:                 var(--rosewater) !important;
-    text-decoration:       underline;
-    text-decoration-color: rgba(245, 224, 220, 0.35);
-    transition:            color 0.2s, text-decoration-color 0.2s;
-}
-.__sri-body a:hover,
-.__sri-desc a:hover,
-.wiki-content-inner a:hover,
-.wiki_desc_text a:hover,
-.d-info-body a:hover,
-.wikipediaContent a:hover {
-    color:                 var(--flamingo) !important;
-    text-decoration-color: rgba(242, 205, 205, 0.6);
-}
-.__sri-body a:visited,
-.__sri-desc a:visited,
-.wiki-content-inner a:visited,
-.wiki_desc_text a:visited,
-.d-info-body a:visited,
-.wikipediaContent a:visited {
-    color: var(--mauve) !important;
-}
-
-/* Widget links (Interesting Finds, Blast from Past) */
-.widgetItem .__title-text,
-.__title-text._0_TITLE {
-    color:      var(--rosewater) !important;
-    transition: color 0.25s;
-}
-.widgetItem .__title-text:hover,
-.__title-text._0_TITLE:hover {
-    color: var(--flamingo) !important;
-}
-.widgetItem a:visited .__title-text,
-a:visited .__title-text._0_TITLE {
-    color: var(--mauve) !important;
-}
-
-/* Domain name chips */
-.__domain-name._0_rank-icons,
-.widgetItem .__domain-name {
-    color:     var(--overlay1) !important;
-    font-size: 0.78em;
+  color: var(--ctp-mauve) !important;
 }
 
 
-/* ── URL breadcrumb ──────────────────────────────────────────────── */
-.__sri-url-box {
-    margin-bottom:    10px;
-    background-color: var(--primary-bg);
-    border-radius:    10px;
-    padding:          6px 10px;
+/* ───────────────────────────
+   SUB LINKY
+   ─────────────────────────── */
+
+.__srgi-title a {
+  color: var(--ctp-sapphire) !important;
 }
 
-.__sri-url .host,
-.__sri-url .path {
-    color: var(--overlay1) !important;
-}
-
-
-/* ── Timestamps ──────────────────────────────────────────────────── */
-.__sri-time,
-.time-stamp {
-    color:   var(--yellow) !important;
-    opacity: 0.85;
+.__srgi-title a:hover {
+  color: var(--ctp-sky) !important;
 }
 
 
-/* ── Translate badge ─────────────────────────────────────────────── */
-.__sri-translate,
-a.__sri-translate {
-    color:      var(--peach) !important;
-    transition: color 0.2s;
-}
-.__sri-translate:hover {
-    color: var(--yellow) !important;
-}
+/* ───────────────────────────
+   FAVICON FIX
+   ─────────────────────────── */
 
-
-/* ── Inline panels (Wolfram, translator, info sections) ──────────── */
-.widget#translate,
-._0_filters-panel,
-.d-info-section,
-.question_form_box .q_form_wrapper,
-.wolfram-answer {
-    background-color: var(--secondary-bg);
-    border-radius:    16px;
-    padding:          1rem;
-    margin:           1rem 0;
-    border:           1px solid var(--teal);
+.__sri-title {
+  display: flex !important;
+  align-items: flex-start;
+  overflow: visible !important;
 }
 
-/* AI summary above results */
-._0_result_page_summary {
-    padding:          12px 16px;
-    border-radius:    16px;
-    border:           1px dashed var(--mauve);
-    line-height:      1.6rem;
-    background-color: var(--primary-bg);
-}
+.__domain-favicon,
+img.__domain-favicon {
 
-._0_results_summary_text { color: var(--secondary-fg); }
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
 
-.app-box,
-._0_result_page_summary,
-.d-info-body,
-.dark\:bg-graphite-900:where(.dark, .dark *) {
-    background-color: var(--secondary-bg);
+  object-fit: contain;
+  border-radius: 4px;
+
+  margin-right: 8px;
+  margin-top: 3px;
+
+  display: inline-block !important;
+  visibility: visible !important;
 }
 
 
-/* ── [WIKI]  Wikipedia widget ────────────────────────────────────── */
+/* ───────────────────────────
+   WIKIPEDIA WIDGET
+   ─────────────────────────── */
 
-/* Outer container – mauve border */
 #wikipediaResults {
-    background-color: var(--secondary-bg);
-    border-radius:    16px;
-    padding:          1rem;
-    margin:           1rem 0;
-    border:           1px solid var(--mauve) !important;
-    overflow:         visible;
+  background: var(--ctp-surface0);
+  border-radius: 16px;
+  border: 1px solid var(--ctp-mauve) !important;
+  padding: 1rem;
 }
 
-/* Inner .scene – no extra border (prevents double-border) */
 #wikipediaResults .scene {
-    background-color: transparent !important;
-    border:           none !important;
-    border-radius:    0 !important;
-    padding:          0 !important;
-    margin:           0 !important;
-    box-shadow:       none !important;
-    opacity:          1 !important;
-    transform:        none !important;
-    animation:        none !important;
-}
-
-.wiki-nw-link {
-    color:      var(--sapphire) !important;
-    transition: color 0.2s;
-}
-.wiki-nw-link:hover {
-    color: var(--sky) !important;
-}
-
-.wikipediaFullPageLink a {
-    color:      var(--main-fg) !important;
-    transition: color 0.2s;
-}
-.wikipediaFullPageLink a:hover {
-    color: var(--lavender) !important;
-}
-
-.wiki-t-cell a {
-    color:      var(--pink) !important;
-    transition: color 0.2s;
-}
-.wiki-t-cell a:hover  { color: var(--flamingo) !important; }
-.wiki-t-cell a:visited { color: var(--mauve) !important; }
-
-/* Wiki text links */
-.wiki_desc_text a,
-.wiki-content-inner a,
-.wikipediaContent a:not(.__title-text):not(.__domain-favicon) {
-    color:                 var(--pink) !important;
-    text-decoration:       underline;
-    text-decoration-color: rgba(245, 194, 231, 0.35);
-    transition:            color 0.2s, text-decoration-color 0.2s;
-}
-.wiki_desc_text a:hover,
-.wiki-content-inner a:hover,
-.wikipediaContent a:hover {
-    color:                 var(--flamingo) !important;
-    text-decoration-color: rgba(242, 205, 205, 0.6);
-}
-.wiki_desc_text a:visited,
-.wiki-content-inner a:visited,
-.wikipediaContent a:visited {
-    color: var(--mauve) !important;
-}
-
-.d-info-section {
-    border-color: var(--sapphire) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 
-/* ── Chat bubbles ────────────────────────────────────────────────── */
-#chat_box .chat_bubble {
-    background-color: var(--primary-bg);
-    border-radius:    16px;
-    box-shadow:       0 8px 24px rgba(0, 0, 0, 0.4);
-    padding:          1rem;
-    margin-bottom:    1.5rem;
-    margin-top:       1.5rem;
-    border:           1px solid var(--border-color);
-}
+/* ───────────────────────────
+   DROPDOWN FIX
+   ─────────────────────────── */
 
-
-/* ── Chat thread list (assistant sidebar) ────────────────────────── */
-.thread-list > li {
-    border-radius: 12px;
-    transition:    background-color 0.2s, color 0.2s;
-}
-.thread-list > li:hover {
-    background-color: rgba(203, 166, 247, 0.15);
-    color:            var(--main-fg);
-}
-.thread-list > li.active,
-.thread-list > li:focus-within {
-    background-color: var(--mauve);
-    color:            var(--crust) !important;
-}
-.thread-list > li.active *,
-.thread-list > li:focus-within * {
-    color: var(--crust) !important;
-}
-
-
-/* ── [DROPDOWN]  All dropdown menus ─────────────────────────────────
- *
- *  Two types:
- *   1) ._0_k_ui_dropdown – JS-controlled ("…" more menu, rating menu)
- *   2) .dropdown.filter-item – checkbox-toggle filters (Region, Time…)
- *
- *  Key fixes:
- *  • `transform:none` in fadeInUp `to` keyframe removes stacking context
- *    so dropdowns can paint over sibling cards (main z-order fix).
- *  • overflow:visible on all parent containers.
- *  • Very high z-index (9999) on the popup lists.
- *  • Do NOT set display:none on .dd-list – Kagi JS controls visibility.
- * ─────────────────────────────────────────────────────────────────── */
-
-/* All dropdown parents must not clip their children */
 .sri-group,
 .search-result,
-.newsResultItem {
-    overflow: visible !important;
-}
-
+.newsResultItem,
 .__sri_more_menu_box,
-.__sri_more_menu,
-._0_k_ui_dropdown,
-._0_rank-icons {
-    overflow: visible !important;
-}
-
-.top-panel-box,
-.top-panel-box > .center-content-box,
-._0_filters-panel,
-.sidebar-filter-nav-form {
-    overflow: visible !important;
-}
-
-/* Filters panel – no card frame (it already lives in the header area) */
-._0_filters-panel {
-    border:     none !important;
-    background: transparent !important;
-    padding:    0 !important;
-    margin:     0 !important;
-}
-
-.sidebar-filter-nav-form {
-    display:     flex;
-    flex-wrap:   wrap;
-    gap:         8px;
-    align-items: center;
-}
-
-/* Type 1: checkbox-toggle filter dropdowns */
-.dropdown.filter-item {
-    position: relative;
-    display:  inline-block;
-    overflow: visible !important;
-}
-
-.dropdown.filter-item .dd-toggle-label,
-.filter-item .dd-toggle-label {
-    display:          flex;
-    align-items:      center;
-    gap:              4px;
-    color:            var(--secondary-fg);
-    background-color: var(--secondary-bg);
-    border:           1px solid var(--border-color);
-    border-radius:    10px;
-    padding:          4px 10px;
-    transition:       border-color 0.2s, color 0.2s;
-    cursor:           pointer;
-    white-space:      nowrap;
-}
-.dropdown.filter-item .dd-toggle-label:hover {
-    border-color: var(--mauve);
-    color:        var(--main-fg);
-}
-
-/* Dropdown list popup – position only, visibility left to Kagi */
-.dropdown.filter-item .dd-list,
-.dd-list {
-    position:         absolute !important;
-    top:              calc(100% + 4px) !important;
-    left:             0 !important;
-    z-index:          9999 !important;
-    min-width:        180px;
-    max-height:       320px;
-    overflow-y:       auto !important;
-    overflow-x:       hidden !important;
-    background-color: var(--secondary-bg) !important;
-    border:           1px solid var(--border-color) !important;
-    border-radius:    12px !important;
-    box-shadow:       0 8px 32px rgba(0, 0, 0, 0.6);
-}
-
-/* Search input inside long dropdowns (e.g. region list) */
-.list_filter._0_k_ui_dropdown_sort_list_input {
-    background-color: var(--primary-bg) !important;
-    color:            var(--main-fg) !important;
-    border:           1px solid var(--border-color) !important;
-    border-radius:    8px !important;
-    padding:          4px 8px;
-    margin:           6px;
-    width:            calc(100% - 12px);
-    box-sizing:       border-box;
-}
-
-/* Type 2: JS-controlled dropdowns ("…" more, result rating) */
-.__sri_more_menu,
-._0_k_ui_dropdown,
-.k_ui_dropdown,
-._0_rank-icons {
-    position: relative !important;
-}
-
-/* Rank menu popup – vlevo od ikony, zarovnáno na střed výšky */
-._0_rank-icons ._0_k_ui_dropdown_data_list,
-._0_rank-icons .k_ui_dropdown_data_list {
-    bottom:    50% !important;
-    top:       auto !important;
-    right:     calc(100% + 8px) !important;
-    left:      auto !important;
-    transform: translateY(50%) !important;
-}
-
-._0_k_ui_dropdown_data_list,
-.k_ui_dropdown_data_list {
-    position:         absolute !important;
-    z-index:          9999 !important;
-    bottom:           calc(100% + 4px) !important;
-    top:              auto !important;
-    right:            0 !important;
-    left:             auto !important;
-    min-width:        200px;
-    background-color: var(--secondary-bg) !important;
-    border:           1px solid var(--border-color) !important;
-    border-radius:    14px !important;
-    box-shadow:       0 8px 32px rgba(0, 0, 0, 0.6);
-    /* Light text in the dropdown (dark text kept for hover via .inner-label:hover) */
-    color:            var(--main-fg) !important;
-    overflow-y:       auto !important;
-    overflow-x:       hidden !important;
-}
-
-/* Dropdown items – bright text on dark background */
-.inner-label {
-    color:            var(--main-fg) !important;   /* near-white */
-    background-color: transparent !important;
-    transition:       background-color 0.15s, color 0.15s;
-    display:          block;
-    padding:          6px 14px;
-    text-decoration:  none;
-}
-.inner-label:hover {
-    background-color: rgba(203, 166, 247, 0.15) !important;
-    color:            var(--main-fg) !important;
-}
-
-.inner-label.checked {
-    color:       var(--mauve) !important;
-    font-weight: 600;
-}
-.inner-label.checked:hover {
-    background-color: rgba(203, 166, 247, 0.2) !important;
-}
-
-._0_k_ui_dropdown_li {
-    color:           var(--main-fg) !important;   /* near-white */
-    display:         block;
-    padding:         7px 14px;
-    text-decoration: none;
-    transition:      background-color 0.15s, color 0.15s;
-}
-._0_k_ui_dropdown_li:hover {
-    background-color: rgba(203, 166, 247, 0.15) !important;
-    color:            var(--main-fg) !important;
-}
-
-/* Hover highlight in result action dropdowns */
-.dropdown .dd-list li.--hover,
-.dropdown .dd-list li:hover,
-.thread-more-menu button:hover,
-.chat_bubble .actions a:hover,
-.chat_bubble .actions button:hover,
-._0_discuss_document_btn:hover,
-.read-more-inline:hover,
-.smw:hover {
-    background-color: var(--mauve);
-    color:            var(--crust) !important;
-    border-radius:    8px;
+._0_k_ui_dropdown {
+  overflow: visible !important;
 }
 
 
-/* ── Filter chips ("PDFs", "Reddit"…) ───────────────────────────── */
-.chip-group .chip-button[aria-checked="true"] {
-    background-color: var(--mauve) !important;
-    border-color:     var(--mauve) !important;
-    color:            var(--crust) !important;
-    border-radius:    12px !important;
-}
-.chip-group .chip-button[aria-checked="false"] {
-    background-color: var(--primary-bg) !important;
-    border-color:     var(--border-color) !important;
-    color:            var(--secondary-fg) !important;
-    border-radius:    12px !important;
-}
-.chip-group .chip-button:hover {
-    background-color: var(--lavender) !important;
-    color:            var(--crust) !important;
-}
+/* ───────────────────────────
+   MOBILE
+   ─────────────────────────── */
 
-
-/* ── Pill buttons ("Read more", "Summarize", "Continue in Assistant") */
-.read-more-inline,
-._0_discuss_document_btn,
-._0_summarize_link,
-.smw {
-    background-color: var(--mauve);
-    color:            var(--crust) !important;
-    border-radius:    12px;
-    padding:          4px 12px;
-    transition:       all 0.25s ease;
-    font-weight:      500;
-}
-
-.read-more-inline svg,
-._0_discuss_document_btn svg,
-._0_summarize_link svg,
-.smw svg {
-    color:      var(--crust) !important;
-    transition: transform 0.25s;
-}
-
-.read-more-inline:hover,
-._0_discuss_document_btn:hover,
-._0_summarize_link:hover,
-.smw:hover {
-    background-color: var(--lavender);
-}
-.read-more-inline:hover svg,
-._0_discuss_document_btn:hover svg,
-._0_summarize_link:hover .ic svg,
-.smw:hover svg {
-    transform: translateX(4px) !important;
-}
-
-
-/* ── Sticky prompt box (assistant input) ─────────────────────────── */
-#prompt-box {
-    flex-grow:      unset !important;
-    bottom:         0;
-    margin-top:     auto;
-    padding-bottom: calc(8px + env(safe-area-inset-bottom));
-    position:       sticky;
-    z-index:        101;
-    background:     rgba(24, 24, 37, 0.78);
-    backdrop-filter:         blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border:         1px solid rgba(69, 71, 90, 0.5);
-    border-radius:  20px 20px 0 0;
-}
-
-
-/* ── Hidden elements ─────────────────────────────────────────────── */
-.header_links,
-._0_landing_filters,
-._0_land_cat_box,
-.land_adv_search_btn {
-    display: none !important;
-}
-
-
-/* ── Rank adjustment panel ───────────────────────────────────────── */
-.ranked-box-wrapper.domain-info-modal {
-    z-index:    10000 !important;
-    max-height: none !important;
-    overflow:   visible !important;
-}
-
-/* ── Special results ─────────────────────────────────────────────── */
-
-/* Boosted results – green left border */
-._0_RESULT_BOOSTED {
-    border-left:   3px solid var(--green) !important;
-    border-radius: 0 16px 16px 0 !important;
-}
-
-/* Widget section headings */
-.widgetContent .widget-icon-title,
-.inlineHeader,
-.widget-title {
-    color: var(--pink) !important;
-}
-
-hr {
-    border-color: var(--surface1);
-    opacity:      0.55;
-}
-
-
-/* ── Mobile: filter bar layout & spacing fix ─────────────────────── */
 @media (max-width: 768px) {
 
-    /* Stack all top-nav rows vertically */
-    .top-nav {
-        display:        flex !important;
-        flex-direction: column !important;
-        align-items:    flex-start !important;
-        gap:            0 !important;
-    }
+  .search-result,
+  .sri-group {
+    padding: 1rem;
+    border-radius: 14px;
+  }
 
-    /* Row 1: All / Images / Videos… – add breathing room below */
-    .nav-tabs-container,
-    ._0_tabs_nav,
-    .search-tabs,
-    .tab-container,
-    .search-nav,
-    .result-nav,
-    ._0_search_nav {
-        width:          100% !important;
-        margin-bottom:  14px !important;
-        padding-bottom: 8px !important;
-    }
+  .search_results_container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 
-    /* Row 2: Quick Answer / PDFs / Czechia / Order By */
-    ._0_filters-panel {
-        width:          100% !important;
-        margin-top:     14px !important;
-        margin-bottom:  8px !important;
-        padding-top:    4px !important;
-        padding-bottom: 4px !important;
-    }
-
-    .sidebar-filter-nav-form {
-        flex-wrap:  wrap !important;
-        row-gap:    8px !important;
-        column-gap: 6px !important;
-    }
-
-    /* Row 3: Time / Options / Advanced */
-    ._0_second_filter_row,
-    .second-filter-row,
-    .filter-row-secondary {
-        width:         100% !important;
-        margin-top:    0 !important;
-        margin-bottom: 8px !important;
-    }
-
-    /* Row 4: result count – own line with a subtle separator */
-    .num_results,
-    ._0_num_results {
-        display:     block !important;
-        width:       100% !important;
-        margin-top:  8px !important;
-        padding-top: 8px !important;
-        border-top:  1px solid var(--surface1) !important;
-        opacity:     0.8;
-    }
-
-    /* Top-panel wrapper: column flex so rows stack cleanly */
-    ._0_app-data-top-panel,
-    .top-panel {
-        position:       static !important;
-        display:        flex !important;
-        flex-direction: column !important;
-        width:          100% !important;
-        gap:            0 !important;
-        margin-top:     6px !important;
-        margin-bottom:  0 !important;
-        top:            auto !important;
-        left:           auto !important;
-        transform:      none !important;
-        padding-bottom: 4px !important;
-    }
 }
