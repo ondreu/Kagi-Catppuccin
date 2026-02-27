@@ -44,6 +44,9 @@ This Catppuccin theme is focused on beaing softer, less neon, and more professio
 ##### Example of search results with quick answer
 ![result example](https://github.com/ondreu/Kagi-Catppuccin/blob/c6703f870dca673c62202bd87aafe8efc0654e05/Images/quickresults.png)
 
+##### Wolfram alpha
+![Wolfram](https://github.com/ondreu/Kagi-Catppuccin/blob/5dc9d9a56ea42f642be30beaf78923df0fe60277/Images/wolfram.png)
+
 ##### Images results page
 ![image](https://github.com/ondreu/Kagi-Catppuccin/blob/c6703f870dca673c62202bd87aafe8efc0654e05/Images/images.png)
 
