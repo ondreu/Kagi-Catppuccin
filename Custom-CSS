@@ -162,8 +162,8 @@ img.__domain-favicon {
   background: var(--ctp-surface1);
   border: 1px solid var(--ctp-surface2);
   border-radius: 99px;
-  padding: 1px 7px 1px;      /* zvětšen padding (byl 1px 10px 2px) */
-  font-size: 0.85em;           /* zvětšen font (byl 0.78em) */
+  padding: 1px 7px 1px;
+  font-size: 0.85em;
   line-height: 1.6;
   max-width: 100%;
   overflow: hidden;
@@ -253,6 +253,278 @@ img.__domain-favicon {
 .__sri_more_menu_box,
 ._0_k_ui_dropdown {
   overflow: visible !important;
+}
+
+/* === WOLFRAM ALPHA INSTANT ANSWER === */
+
+._0_IA.instant-answer.wolfram-full-results {
+  background: linear-gradient(135deg, var(--ctp-surface0) 0%, #252538 100%);
+  border: 1.5px solid var(--ctp-peach) !important;
+  border-radius: 18px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+  box-shadow:
+    0 0 0 1px rgba(250,179,135,0.15),
+    0 0 24px rgba(250,179,135,0.12),
+    0 8px 32px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Gradient top-line – fade od průhledné, aby nevznikal zub v rozích */
+._0_IA.instant-answer.wolfram-full-results::before {
+  content: "";
+  position: absolute;
+  top: -1.5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ctp-mauve) 15%,
+    var(--ctp-peach) 50%,
+    var(--ctp-yellow) 85%,
+    transparent 100%
+  );
+  opacity: 0.85;
+}
+
+/* Badge "Wolfram Alpha" */
+._0_IA.instant-answer.wolfram-full-results::after {
+  content: "Wolfram Alpha";
+  position: absolute;
+  top: -0.65rem;
+  right: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ctp-peach);
+  background: var(--ctp-base);
+  padding: 1px 8px;
+  border-radius: 99px;
+  border: 1px solid rgba(250,179,135,0.35);
+}
+
+/* Text uvnitř */
+._0_IA.instant-answer.wolfram-full-results,
+._0_IA.instant-answer.wolfram-full-results * {
+  color: var(--ctp-text) !important;
+}
+
+/* Linky */
+._0_IA.instant-answer.wolfram-full-results a:not(:visited) {
+  color: var(--ctp-peach) !important;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(250,179,135,0.4);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+._0_IA.instant-answer.wolfram-full-results a:not(:visited):hover {
+  color: var(--ctp-yellow) !important;
+  border-color: var(--ctp-yellow);
+}
+
+/* Hover glow */
+._0_IA.instant-answer.wolfram-full-results:hover {
+  box-shadow:
+    0 0 0 1px rgba(250,179,135,0.3),
+    0 0 36px rgba(250,179,135,0.18),
+    0 8px 40px rgba(0,0,0,0.4);
+  border-color: var(--ctp-yellow) !important;
+  transition: all 0.25s ease;
+}
+
+/* === KALKULAČKA (inline instant answer) === */
+
+._0_IA.instant-answer.inline-content.clearfix {
+  background: linear-gradient(135deg, var(--ctp-surface0) 0%, #202034 100%);
+  border: 1.5px solid var(--ctp-teal) !important;
+  border-radius: 18px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+  box-shadow:
+    0 0 0 1px rgba(148,226,213,0.15),
+    0 0 24px rgba(148,226,213,0.10),
+    0 8px 32px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Gradient top-line */
+._0_IA.instant-answer.inline-content.clearfix::before {
+  content: "";
+  position: absolute;
+  top: -1.5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ctp-sapphire) 15%,
+    var(--ctp-teal) 50%,
+    var(--ctp-green) 85%,
+    transparent 100%
+  );
+  opacity: 0.85;
+}
+
+/* Badge "Calculator" */
+._0_IA.instant-answer.inline-content.clearfix::after {
+  content: "Calculator";
+  position: absolute;
+  top: -0.65rem;
+  right: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ctp-teal);
+  background: var(--ctp-base);
+  padding: 1px 8px;
+  border-radius: 99px;
+  border: 1px solid rgba(148,226,213,0.35);
+}
+
+/* Text uvnitř */
+._0_IA.instant-answer.inline-content.clearfix,
+._0_IA.instant-answer.inline-content.clearfix * {
+  color: var(--ctp-text) !important;
+}
+
+/* Linky */
+._0_IA.instant-answer.inline-content.clearfix a:not(:visited) {
+  color: var(--ctp-teal) !important;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(148,226,213,0.4);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+._0_IA.instant-answer.inline-content.clearfix a:not(:visited):hover {
+  color: var(--ctp-sky) !important;
+  border-color: var(--ctp-sky);
+}
+
+/* Hover glow */
+._0_IA.instant-answer.inline-content.clearfix:hover {
+  box-shadow:
+    0 0 0 1px rgba(148,226,213,0.3),
+    0 0 36px rgba(148,226,213,0.15),
+    0 8px 40px rgba(0,0,0,0.4);
+  border-color: var(--ctp-sky) !important;
+  transition: all 0.25s ease;
+}
+
+/* === PŘEVODNÍK (#conversions) === */
+
+#conversions {
+  background: linear-gradient(135deg, var(--ctp-surface0) 0%, #1e2235 100%);
+  border: 1.5px solid var(--ctp-blue) !important;
+  border-radius: 18px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+  box-shadow:
+    0 0 0 1px rgba(137,180,250,0.15),
+    0 0 24px rgba(137,180,250,0.10),
+    0 8px 32px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Gradient top-line */
+#conversions::before {
+  content: "";
+  position: absolute;
+  top: -1.5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ctp-lavender) 15%,
+    var(--ctp-blue) 50%,
+    var(--ctp-sapphire) 85%,
+    transparent 100%
+  );
+  opacity: 0.85;
+}
+
+/* Badge "Conversions" */
+#conversions::after {
+  content: "Conversions";
+  position: absolute;
+  top: -0.65rem;
+  right: 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ctp-blue);
+  background: var(--ctp-base);
+  padding: 1px 8px;
+  border-radius: 99px;
+  border: 1px solid rgba(137,180,250,0.35);
+}
+
+/* Text uvnitř */
+#conversions,
+#conversions * {
+  color: var(--ctp-text) !important;
+}
+
+/* Tabulka */
+#conversions table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+}
+
+#conversions tr:hover td {
+  background: rgba(137,180,250,0.07);
+  transition: background 0.15s ease;
+}
+
+#conversions td,
+#conversions th {
+  padding: 0.35rem 0.6rem;
+  border-bottom: 1px solid var(--ctp-surface1);
+}
+
+#conversions th {
+  color: var(--ctp-lavender) !important;
+  font-weight: 600;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Linky */
+#conversions a:not(:visited) {
+  color: var(--ctp-blue) !important;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(137,180,250,0.4);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+#conversions a:not(:visited):hover {
+  color: var(--ctp-lavender) !important;
+  border-color: var(--ctp-lavender);
+}
+
+/* Hover glow */
+#conversions:hover {
+  box-shadow:
+    0 0 0 1px rgba(137,180,250,0.3),
+    0 0 36px rgba(137,180,250,0.15),
+    0 8px 40px rgba(0,0,0,0.4);
+  border-color: var(--ctp-lavender) !important;
+  transition: all 0.25s ease;
 }
 
 /* === MOBILE === */
